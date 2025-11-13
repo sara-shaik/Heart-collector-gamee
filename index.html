@@ -78,15 +78,17 @@ body {
   position:absolute; inset:0;
   display:flex; align-items:center; justify-content:center;
   background: rgba(0,0,0,0.25);
-  z-index:40; opacity:0; pointer-events:none; transition: opacity 0.3s;
+  z-index:100; /* make overlay above everything */
+  opacity:0; pointer-events:none; transition: opacity 0.3s;
 }
 .overlay.show{opacity:1; pointer-events:auto;}
 .win-card{
   background:white; padding:28px 32px; border-radius:16px; text-align:center;
   box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  max-width:400px;
 }
-.win-card h2{
-  margin:0 0 10px 0; color:#c02a61;
+.win-card h2 {
+  margin:0 0 10px 0; color:#c02a61; font-size:20px; line-height:1.3;
 }
 .win-card button{
   background: linear-gradient(90deg,#ff7aa8,#ff5fa0);
@@ -118,6 +120,7 @@ body {
 </head>
 <body>
 <div class="sky" id="sky">
+
   <div class="start-screen" id="startScreen">
     <h2>Heart Catch — For My Love 💘</h2>
     <button id="startBtn">Start Game</button>
@@ -134,7 +137,7 @@ body {
 
   <div class="overlay" id="overlay">
     <div class="win-card">
-      <h2>You won Boo Boo's heart like always, My prince charmingg 💖</h2>
+      <h2 id="winMessage">You won Boo Boo's heart like always, My prince charmingg 💖</h2>
       <button id="playAgainBtn">Play Again</button>
     </div>
   </div>
@@ -233,6 +236,8 @@ function collect(el){
 }
 
 function win(){
+  const winMsg = document.getElementById('winMessage');
+  winMsg.textContent = "You won Boo Boo's heart like always, My prince charmingg 💖";
   overlay.classList.add("show");
   confetti();
 }
