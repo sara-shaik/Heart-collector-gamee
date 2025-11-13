@@ -18,7 +18,6 @@ body{
   align-items:center;
   justify-content:center;
   padding:20px;
-  -webkit-tap-highlight-color: transparent;
 }
 .sky{
   position:relative;
@@ -26,7 +25,6 @@ body{
   max-width:900px;
   height:640px;
   border-radius:18px;
-  box-shadow: 0 8px 30px rgba(200,80,120,0.12);
   overflow:hidden;
   background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.9), rgba(255,255,255,0.3) 20%, transparent 40%),
               radial-gradient(circle at 80% 70%, rgba(255,255,255,0.85), rgba(255,255,255,0.25) 18%, transparent 36%),
@@ -110,45 +108,49 @@ const sky = document.getElementById('sky');
 const dingSound = new Audio('ding.mp3');
 
 let score = 0;
-
-function heartSVG(){
-  return `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><radialGradient id='g' cx='30%' cy='30%' r='70%'><stop offset='0%' stop-color='%23ff8fb0'/><stop offset='70%' stop-color='%23ff2f60'/><stop offset='100%' stop-color='%23e60044'/></radialGradient></defs><path fill='url(%23g)' stroke='none' d='M47.6 6c-5.6 0-9.9 3.6-11.6 6.1-1.7-2.5-6-6.1-11.6-6.1C13.3 6 6 13.5 6 22.2 6 37 30 48 32 52c2-4 26-15 26-29.8C58 13.5 50.7 6 47.6 6z'/></svg>`;
-}
-
-// Falling hearts
 let hearts = [];
 
+function heartSVG(){
+  const id = 'g'+Math.floor(Math.random()*1000000); // unique gradient ID
+  return `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
+    <defs>
+      <radialGradient id='${id}' cx='30%' cy='30%' r='70%'>
+        <stop offset='0%' stop-color='%23ff8fb0'/>
+        <stop offset='70%' stop-color='%23ff2f60'/>
+        <stop offset='100%' stop-color='%23e60044'/>
+      </radialGradient>
+    </defs>
+    <path fill='url(#${id})' stroke='none' d='M47.6 6c-5.6 0-9.9 3.6-11.6 6.1-1.7-2.5-6-6.1-11.6-6.1C13.3 6 6 13.5 6 22.2 6 37 30 48 32 52c2-4 26-15 26-29.8C58 13.5 50.7 6 47.6 6z'/>
+  </svg>`;
+}
+
 function createHearts(){
-  playArea.innerHTML = '';
+  playArea.innerHTML='';
   hearts = [];
   const w = playArea.clientWidth;
   const h = playArea.clientHeight;
-
   for(let i=0;i<HEART_COUNT;i++){
     const heart = document.createElement('div');
     heart.className = 'heart';
     heart.innerHTML = `<img src="data:image/svg+xml;utf8,${encodeURIComponent(heartSVG())}" style="width:100%;height:100%;">`;
-    heart.style.left = Math.random() * (w - 50) + 'px';
-    heart.style.top = Math.random() * -h + 'px'; // start above the play area
+    heart.style.left = Math.random()*(w-50)+'px';
+    heart.style.top = Math.random()*-h+'px'; // start above play area
     playArea.appendChild(heart);
-
     heart.dataset.collected = false;
-    hearts.push({el: heart, vy: 1 + Math.random()*2}); // falling speed
-
-    heart.addEventListener('pointerdown', () => collect(heart));
+    hearts.push({el: heart, vy: 1+Math.random()*2});
+    heart.addEventListener('pointerdown',()=>collect(heart));
   }
-
   animateHearts();
 }
 
 function animateHearts(){
   const h = playArea.clientHeight;
-  hearts.forEach(hObj => {
+  hearts.forEach(hObj=>{
     if(hObj.el.dataset.collected) return;
     let top = parseFloat(hObj.el.style.top);
     top += hObj.vy;
-    if(top > h) top = -50; // loop from top
-    hObj.el.style.top = top + 'px';
+    if(top>h) top=-50;
+    hObj.el.style.top = top+'px';
     hObj.el.style.transform = `rotate(${Math.sin(top/10)*10}deg)`;
   });
   requestAnimationFrame(animateHearts);
@@ -173,7 +175,7 @@ function collect(el){
   score += POINTS_PER_HEART;
   scoreEl.textContent = score;
 
-  if(score >= TARGET_SCORE) setTimeout(()=>win(),500);
+  if(score>=TARGET_SCORE) setTimeout(()=>win(),500);
 }
 
 function win(){
@@ -181,15 +183,15 @@ function win(){
   confetti();
 }
 
-playAgainBtn.onclick = () => {
-  score = 0;
-  scoreEl.textContent = 0;
+playAgainBtn.onclick=()=>{
+  score=0;
+  scoreEl.textContent=0;
   overlay.classList.remove('show');
   createHearts();
 };
 
 function confetti(){
-  const ctx = confettiCanvas.getContext('2d');
+  const ctx=confettiCanvas.getContext('2d');
   confettiCanvas.width = sky.clientWidth;
   confettiCanvas.height = sky.clientHeight;
   const pieces=[];
@@ -211,9 +213,9 @@ function confetti(){
 // Start screen logic
 const startBtn = document.getElementById('startBtn');
 const startScreen = document.getElementById('startScreen');
-startBtn.addEventListener('click', () => {
+startBtn.addEventListener('click',()=>{
   startScreen.classList.add('hide');
-  playArea.style.visibility = 'visible';
+  playArea.style.visibility='visible';
   createHearts();
 });
 </script>
