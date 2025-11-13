@@ -110,8 +110,9 @@ const dingSound = new Audio('ding.mp3');
 let score = 0;
 let hearts = [];
 
+// Unique SVG hearts
 function heartSVG(){
-  const id = 'g'+Math.floor(Math.random()*1000000); // unique gradient ID
+  const id = 'g'+Math.floor(Math.random()*1000000);
   return `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
     <defs>
       <radialGradient id='${id}' cx='30%' cy='30%' r='70%'>
@@ -129,15 +130,18 @@ function createHearts(){
   hearts = [];
   const w = playArea.clientWidth;
   const h = playArea.clientHeight;
+
   for(let i=0;i<HEART_COUNT;i++){
     const heart = document.createElement('div');
-    heart.className = 'heart';
-    heart.innerHTML = `<img src="data:image/svg+xml;utf8,${encodeURIComponent(heartSVG())}" style="width:100%;height:100%;">`;
-    heart.style.left = Math.random()*(w-50)+'px';
-    heart.style.top = Math.random()*-h+'px'; // start above play area
+    heart.className='heart';
+    heart.dataset.collected=false;
+    heart.innerHTML=heartSVG(); // Insert SVG directly
+
+    heart.style.left=Math.random()*(w-50)+'px';
+    heart.style.top=Math.random()*-h+'px';
+
     playArea.appendChild(heart);
-    heart.dataset.collected = false;
-    hearts.push({el: heart, vy: 1+Math.random()*2});
+    hearts.push({el:heart,vy:1+Math.random()*2});
     heart.addEventListener('pointerdown',()=>collect(heart));
   }
   animateHearts();
@@ -147,33 +151,33 @@ function animateHearts(){
   const h = playArea.clientHeight;
   hearts.forEach(hObj=>{
     if(hObj.el.dataset.collected) return;
-    let top = parseFloat(hObj.el.style.top);
-    top += hObj.vy;
+    let top=parseFloat(hObj.el.style.top);
+    top+=hObj.vy;
     if(top>h) top=-50;
-    hObj.el.style.top = top+'px';
-    hObj.el.style.transform = `rotate(${Math.sin(top/10)*10}deg)`;
+    hObj.el.style.top=top+'px';
+    hObj.el.style.transform=`rotate(${Math.sin(top/10)*10}deg)`;
   });
   requestAnimationFrame(animateHearts);
 }
 
 function collect(el){
   if(el.dataset.collected) return;
-  el.dataset.collected = true;
-  el.style.opacity = 0;
+  el.dataset.collected=true;
+  el.style.opacity=0;
 
-  const rect = el.getBoundingClientRect();
-  const sparkle = document.createElement('div');
+  const rect=el.getBoundingClientRect();
+  const sparkle=document.createElement('div');
   sparkle.classList.add('sparkle');
-  sparkle.style.left = rect.left + rect.width/2 + 'px';
-  sparkle.style.top = rect.top + rect.height/2 + 'px';
+  sparkle.style.left=rect.left+rect.width/2+'px';
+  sparkle.style.top=rect.top+rect.height/2+'px';
   document.body.appendChild(sparkle);
   setTimeout(()=>sparkle.remove(),600);
 
-  dingSound.currentTime = 0;
+  dingSound.currentTime=0;
   dingSound.play();
 
-  score += POINTS_PER_HEART;
-  scoreEl.textContent = score;
+  score+=POINTS_PER_HEART;
+  scoreEl.textContent=score;
 
   if(score>=TARGET_SCORE) setTimeout(()=>win(),500);
 }
@@ -192,8 +196,8 @@ playAgainBtn.onclick=()=>{
 
 function confetti(){
   const ctx=confettiCanvas.getContext('2d');
-  confettiCanvas.width = sky.clientWidth;
-  confettiCanvas.height = sky.clientHeight;
+  confettiCanvas.width=sky.clientWidth;
+  confettiCanvas.height=sky.clientHeight;
   const pieces=[];
   const colors=['#ff2f60','#ff8fb0','#ffe3f0','#ffb6c1','#e23a6a'];
   for(let i=0;i<100;i++)
@@ -211,8 +215,8 @@ function confetti(){
 }
 
 // Start screen logic
-const startBtn = document.getElementById('startBtn');
-const startScreen = document.getElementById('startScreen');
+const startBtn=document.getElementById('startBtn');
+const startScreen=document.getElementById('startScreen');
 startBtn.addEventListener('click',()=>{
   startScreen.classList.add('hide');
   playArea.style.visibility='visible';
