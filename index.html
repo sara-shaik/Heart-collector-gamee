@@ -1,219 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Heart Catch — For My Love</title>
-  <style>
-    :root{
-      --bg1: #ffdff0;
-      --bg2: #ffe8f4;
-      --accent: #ff2f60;
-    }
-    html,body{height:100%;margin:0;font-family:Inter, system-ui, Arial, sans-serif}
-    body{
-      background: linear-gradient(180deg,var(--bg1),var(--bg2));
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .sky{
-      position:relative;
-      width:100%;
-      max-width:900px;
-      height:640px;
-      border-radius:18px;
-      box-shadow: 0 8px 30px rgba(200,80,120,0.12);
-      overflow:hidden;
-      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.9), rgba(255,255,255,0.3) 20%, transparent 40%),
-                  radial-gradient(circle at 80% 70%, rgba(255,255,255,0.85), rgba(255,255,255,0.25) 18%, transparent 36%),
-                  linear-gradient(180deg, rgba(255,245,250,0.9), rgba(255,230,240,0.8));
-    }
-    .cloud { position:absolute; background: rgba(255,255,255,0.9); filter: blur(2px); border-radius:50%; opacity:0.9; mix-blend-mode: screen; animation: drift linear infinite; }
-    .cloud.c1{width:220px;height:80px; left:10%; top:10%; animation-duration:40s;}
-    .cloud.c2{width:180px;height:70px; right:5%; top:20%; animation-duration:34s; animation-delay:3s;}
-    .cloud.c3{width:260px;height:100px; left:30%; top:45%; animation-duration:50s; animation-delay:-6s;}
-    .cloud.c4{width:140px;height:55px; right:18%; top:60%; animation-duration:30s; animation-delay:1s;}
-    @keyframes drift { 0%{transform:translateX(-6px)}50%{transform:translateX(6px)}100%{transform:translateX(-6px)} }
-    .hud{ position:absolute; top:18px; left:20px; right:20px; display:flex; justify-content:space-between; align-items:center; pointer-events:none; }
-    .title{ pointer-events:auto; background: linear-gradient(90deg,#ff8fb0,#ff5fa0); color:white; padding:8px 14px; border-radius:14px; font-weight:600; box-shadow:0 6px 18px rgba(230,80,120,0.15); }
-    .score{ pointer-events:auto; background:rgba(255,255,255,0.9); padding:8px 12px; border-radius:12px; font-weight:600; color:#c33a63; display:flex; align-items:center; gap:10px; }
-    .play-area{ position:absolute; inset:0 0 70px 0; overflow:hidden; touch-action: manipulation; }
-    .heart{ position:absolute; width:48px; height:48px; cursor:pointer; user-select:none; transform-origin:center; transition: transform 0.2s ease, opacity 0.3s ease; will-change: transform, left, top; }
-    .bunny-area{ position:absolute; bottom:8px; left:50%; transform:translateX(-50%); width:260px; height:180px; display:flex; align-items:flex-end; justify-content:center; pointer-events:none; }
-    .bunny{ width:160px; pointer-events:none; transform:translateY(0); }
-    .basket{ position:absolute; bottom:28px; width:120px; height:64px; border-radius:8px; background: linear-gradient(180deg,#f5c5d6,#ffb6cc); border:3px solid rgba(200,80,120,0.18); box-shadow: 0 6px 18px rgba(200,80,120,0.12); transform:translateY(10px); pointer-events:none; }
-    .overlay{ position:absolute; inset:0; background: rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; z-index:40; opacity:0; pointer-events:none; transition: opacity 0.35s ease; }
-    .overlay.show{ opacity:1; pointer-events:auto; }
-    .win-card{ background: linear-gradient(180deg,#fff,#fff4fb); padding:28px 32px; border-radius:16px; text-align:center; box-shadow:0 18px 50px rgba(180,50,100,0.18); transform: translateY(0); }
-    .win-card h2{ margin:0 0 6px 0; color:#c02a61; font-size:28px; }
-    .win-card p{ margin:0 0 12px 0; color:#b33a6b; font-weight:600; }
-    .win-card button{ background: linear-gradient(90deg,#ff7aa8,#ff5fa0); color:white; border:none; padding:10px 18px; border-radius:10px; font-weight:700; cursor:pointer; }
-    .start-screen{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(255,240,245,0.85); backdrop-filter:blur(6px); z-index:50; transition:opacity .4s ease; }
-    .start-screen.hide{opacity:0;pointer-events:none;}
-    .start-card{ background:white; padding:28px 36px; border-radius:18px; text-align:center; box-shadow:0 12px 40px rgba(200,80,120,0.2); }
-    .start-card h2{color:#ff2f60;margin:0 0 10px;font-size:26px;}
-    .start-card p{color:#c33a63;margin:0 0 18px;}
-    .start-card button{ background:linear-gradient(90deg,#ff7aa8,#ff5fa0); color:white; border:none; padding:10px 22px; border-radius:12px; font-weight:700; cursor:pointer; font-size:16px; }
-    @media (max-width:520px){ .sky{ height: 72vh; max-width: 420px; } .bunny{ width:120px; } .heart{ width:42px; height:42px; } }
-    .sparkle { position: absolute; width: 10px; height: 10px; background: radial-gradient(circle, #fff8e7 0%, #ffd6e8 60%, transparent 100%); border-radius: 50%; pointer-events: none; animation: sparkleAnim 0.6s ease-out forwards; z-index: 30; }
-    @keyframes sparkleAnim { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Heart Catch — For My Love</title>
+<style>
+:root{
+  --bg1: #ffdff0;
+  --bg2: #ffe8f4;
+  --accent: #ff2f60;
+}
+html,body{height:100%;margin:0;font-family:Inter, system-ui, Arial, sans-serif;}
+body{
+  background: linear-gradient(180deg,var(--bg1),var(--bg2));
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  -webkit-tap-highlight-color: transparent;
+}
+.sky{
+  position:relative;
+  width:100%;
+  max-width:900px;
+  height:640px;
+  border-radius:18px;
+  box-shadow: 0 8px 30px rgba(200,80,120,0.12);
+  overflow:hidden;
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.9), rgba(255,255,255,0.3) 20%, transparent 40%),
+              radial-gradient(circle at 80% 70%, rgba(255,255,255,0.85), rgba(255,255,255,0.25) 18%, transparent 36%),
+              linear-gradient(180deg, rgba(255,245,250,0.9), rgba(255,230,240,0.8));
+}
+.cloud { position:absolute; background: rgba(255,255,255,0.9); filter: blur(2px); border-radius:50%; opacity:0.9; mix-blend-mode: screen; animation: drift linear infinite; }
+.cloud.c1{width:220px;height:80px; left:10%; top:10%; animation-duration:40s;}
+.cloud.c2{width:180px;height:70px; right:5%; top:20%; animation-duration:34s; animation-delay:3s;}
+.cloud.c3{width:260px;height:100px; left:30%; top:45%; animation-duration:50s; animation-delay:-6s;}
+.cloud.c4{width:140px;height:55px; right:18%; top:60%; animation-duration:30s; animation-delay:1s;}
+@keyframes drift { 0%{transform:translateX(-6px)}50%{transform:translateX(6px)}100%{transform:translateX(-6px)} }
+.hud{ position:absolute; top:18px; left:20px; right:20px; display:flex; justify-content:space-between; align-items:center; pointer-events:none; }
+.title{ pointer-events:auto; background: linear-gradient(90deg,#ff8fb0,#ff5fa0); color:white; padding:8px 14px; border-radius:14px; font-weight:600; box-shadow:0 6px 18px rgba(230,80,120,0.15); }
+.score{ pointer-events:auto; background:rgba(255,255,255,0.9); padding:8px 12px; border-radius:12px; font-weight:600; color:#c33a63; display:flex; align-items:center; gap:10px; }
+.play-area{ position:absolute; inset:0 0 70px 0; overflow:hidden; touch-action: manipulation; }
+.heart{ position:absolute; width:48px; height:48px; cursor:pointer; user-select:none; transform-origin:center; transition: transform 0.2s ease, opacity 0.3s ease; }
+.bunny-area{ position:absolute; bottom:8px; left:50%; transform:translateX(-50%); width:260px; height:180px; display:flex; align-items:flex-end; justify-content:center; pointer-events:none; }
+.bunny{ width:160px; pointer-events:none; transform:translateY(0); }
+.basket{ position:absolute; bottom:28px; width:120px; height:64px; border-radius:8px; background: linear-gradient(180deg,#f5c5d6,#ffb6cc); border:3px solid rgba(200,80,120,0.18); box-shadow: 0 6px 18px rgba(200,80,120,0.12); transform:translateY(10px); pointer-events:none; }
+.overlay{ position:absolute; inset:0; background: rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; z-index:40; opacity:0; pointer-events:none; transition: opacity 0.35s ease; }
+.overlay.show{ opacity:1; pointer-events:auto; }
+.win-card{ background: linear-gradient(180deg,#fff,#fff4fb); padding:28px 32px; border-radius:16px; text-align:center; box-shadow:0 18px 50px rgba(180,50,100,0.18); transform: translateY(0); }
+.win-card h2{ margin:0 0 6px 0; color:#c02a61; font-size:28px; }
+.win-card p{ margin:0 0 12px 0; color:#b33a6b; font-weight:600; }
+.win-card button{ background: linear-gradient(90deg,#ff7aa8,#ff5fa0); color:white; border:none; padding:10px 18px; border-radius:10px; font-weight:700; cursor:pointer; }
+.start-screen{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(255,240,245,0.85); backdrop-filter:blur(6px); z-index:50; transition:opacity .4s ease; }
+.start-screen.hide{opacity:0;pointer-events:none;}
+.start-card{ background:white; padding:28px 36px; border-radius:18px; text-align:center; box-shadow:0 12px 40px rgba(200,80,120,0.2); }
+.start-card h2{color:#ff2f60;margin:0 0 10px;font-size:26px;}
+.start-card p{color:#c33a63;margin:0 0 18px;}
+.start-card button{ background:linear-gradient(90deg,#ff7aa8,#ff5fa0); color:white; border:none; padding:10px 22px; border-radius:12px; font-weight:700; cursor:pointer; font-size:16px; }
+@media (max-width:520px){ .sky{ height: 72vh; max-width: 420px; } .bunny{ width:120px; } .heart{ width:42px; height:42px; } }
+.sparkle { position: absolute; width: 10px; height: 10px; background: radial-gradient(circle, #fff8e7 0%, #ffd6e8 60%, transparent 100%); border-radius: 50%; pointer-events: none; animation: sparkleAnim 0.6s ease-out forwards; z-index: 30; }
+@keyframes sparkleAnim { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
+</style>
 </head>
 <body>
-  <div class="sky" id="sky">
-    <div class="start-screen" id="startScreen">
-      <div class="start-card">
-        <h2>Heart Catch — For My Love 💘</h2>
-        <p>Tap the hearts and collect them for your Boo Boo!</p>
-        <button id="startBtn">Start Game</button>
-      </div>
-    </div>
-
-    <div class="hud">
-      <div class="title">Heart Catch — For My Love 💘</div>
-      <div class="score">Score: <span id="score">0</span> / 50</div>
-    </div>
-
-    <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div><div class="cloud c4"></div>
-    <div class="play-area" id="playArea" style="visibility:hidden;"></div>
-
-    <div class="bunny-area">
-      <div class="basket" id="basket"></div>
-      <img src="bunny.png" alt="Cute bunny" class="bunny">
-    </div>
-
-    <canvas id="confettiCanvas" style="position:absolute; inset:0; z-index:30; pointer-events:none;"></canvas>
-
-    <div class="overlay" id="overlay">
-      <div class="win-card">
-        <h2>Tadaa! 🎉</h2>
-        <p>Tadaa you won your Boo Boo's heart again!! 💞</p>
-        <button id="playAgainBtn">Play again</button>
-      </div>
+<div class="sky" id="sky">
+  <div class="start-screen" id="startScreen">
+    <div class="start-card">
+      <h2>Heart Catch — For My Love 💘</h2>
+      <p>Tap the hearts and collect them for your Boo Boo!</p>
+      <button id="startBtn">Start Game</button>
     </div>
   </div>
 
-  <script>
-    const HEART_COUNT = 10;
-    const POINTS_PER_HEART = 5;
-    const TARGET_SCORE = HEART_COUNT * POINTS_PER_HEART;
-    const playArea = document.getElementById('playArea');
-    const scoreEl = document.getElementById('score');
-    const overlay = document.getElementById('overlay');
-    const playAgainBtn = document.getElementById('playAgainBtn');
-    const confettiCanvas = document.getElementById('confettiCanvas');
-    const sky = document.getElementById('sky');
-    const dingSound = new Audio('ding.mp3');
+  <div class="hud">
+    <div class="title">Heart Catch — For My Love 💘</div>
+    <div class="score">Score: <span id="score">0</span> / 50</div>
+  </div>
 
-    let score = 0;
+  <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div><div class="cloud c4"></div>
+  <div class="play-area" id="playArea" style="visibility:hidden;"></div>
 
-    function heartSVG(){
-      return `
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
-          <defs>
-            <radialGradient id='g' cx='30%' cy='30%' r='70%'>
-              <stop offset='0%' stop-color='%23ff8fb0'/>
-              <stop offset='70%' stop-color='%23ff2f60'/>
-              <stop offset='100%' stop-color='%23e60044'/>
-            </radialGradient>
-          </defs>
-          <path fill='url(%23g)' stroke='none' d='M47.6 6c-5.6 0-9.9 3.6-11.6 6.1-1.7-2.5-6-6.1-11.6-6.1C13.3 6 6 13.5 6 22.2 6 37 30 48 32 52c2-4 26-15 26-29.8C58 13.5 50.7 6 47.6 6z'/>
-        </svg>`;
+  <div class="bunny-area">
+    <div class="basket" id="basket"></div>
+    <img src="bunny.png" alt="Cute bunny" class="bunny">
+  </div>
+
+  <canvas id="confettiCanvas" style="position:absolute; inset:0; z-index:30; pointer-events:none;"></canvas>
+
+  <div class="overlay" id="overlay">
+    <div class="win-card">
+      <h2>Tadaa! 🎉</h2>
+      <p>Tadaa you won your Boo Boo's heart again!! 💞</p>
+      <button id="playAgainBtn">Play again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const HEART_COUNT = 10;
+const POINTS_PER_HEART = 5;
+const TARGET_SCORE = HEART_COUNT * POINTS_PER_HEART;
+const playArea = document.getElementById('playArea');
+const scoreEl = document.getElementById('score');
+const overlay = document.getElementById('overlay');
+const playAgainBtn = document.getElementById('playAgainBtn');
+const confettiCanvas = document.getElementById('confettiCanvas');
+const sky = document.getElementById('sky');
+const dingSound = new Audio('ding.mp3');
+
+let score = 0;
+
+function heartSVG(){
+  return `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><radialGradient id='g' cx='30%' cy='30%' r='70%'><stop offset='0%' stop-color='%23ff8fb0'/><stop offset='70%' stop-color='%23ff2f60'/><stop offset='100%' stop-color='%23e60044'/></radialGradient></defs><path fill='url(%23g)' stroke='none' d='M47.6 6c-5.6 0-9.9 3.6-11.6 6.1-1.7-2.5-6-6.1-11.6-6.1C13.3 6 6 13.5 6 22.2 6 37 30 48 32 52c2-4 26-15 26-29.8C58 13.5 50.7 6 47.6 6z'/></svg>`;
+}
+
+// Falling hearts
+let hearts = [];
+
+function createHearts(){
+  playArea.innerHTML = '';
+  hearts = [];
+  const w = playArea.clientWidth;
+  const h = playArea.clientHeight;
+
+  for(let i=0;i<HEART_COUNT;i++){
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.innerHTML = `<img src="data:image/svg+xml;utf8,${encodeURIComponent(heartSVG())}" style="width:100%;height:100%;">`;
+    heart.style.left = Math.random() * (w - 50) + 'px';
+    heart.style.top = Math.random() * -h + 'px'; // start above the play area
+    playArea.appendChild(heart);
+
+    heart.dataset.collected = false;
+    hearts.push({el: heart, vy: 1 + Math.random()*2}); // falling speed
+
+    heart.addEventListener('pointerdown', () => collect(heart));
+  }
+
+  animateHearts();
+}
+
+function animateHearts(){
+  const h = playArea.clientHeight;
+  hearts.forEach(hObj => {
+    if(hObj.el.dataset.collected) return;
+    let top = parseFloat(hObj.el.style.top);
+    top += hObj.vy;
+    if(top > h) top = -50; // loop from top
+    hObj.el.style.top = top + 'px';
+    hObj.el.style.transform = `rotate(${Math.sin(top/10)*10}deg)`;
+  });
+  requestAnimationFrame(animateHearts);
+}
+
+function collect(el){
+  if(el.dataset.collected) return;
+  el.dataset.collected = true;
+  el.style.opacity = 0;
+
+  const rect = el.getBoundingClientRect();
+  const sparkle = document.createElement('div');
+  sparkle.classList.add('sparkle');
+  sparkle.style.left = rect.left + rect.width/2 + 'px';
+  sparkle.style.top = rect.top + rect.height/2 + 'px';
+  document.body.appendChild(sparkle);
+  setTimeout(()=>sparkle.remove(),600);
+
+  dingSound.currentTime = 0;
+  dingSound.play();
+
+  score += POINTS_PER_HEART;
+  scoreEl.textContent = score;
+
+  if(score >= TARGET_SCORE) setTimeout(()=>win(),500);
+}
+
+function win(){
+  overlay.classList.add('show');
+  confetti();
+}
+
+playAgainBtn.onclick = () => {
+  score = 0;
+  scoreEl.textContent = 0;
+  overlay.classList.remove('show');
+  createHearts();
+};
+
+function confetti(){
+  const ctx = confettiCanvas.getContext('2d');
+  confettiCanvas.width = sky.clientWidth;
+  confettiCanvas.height = sky.clientHeight;
+  const pieces=[];
+  const colors=['#ff2f60','#ff8fb0','#ffe3f0','#ffb6c1','#e23a6a'];
+  for(let i=0;i<100;i++)
+    pieces.push({x:Math.random()*confettiCanvas.width,y:Math.random()*confettiCanvas.height,vy:2+Math.random()*4,color:colors[Math.floor(Math.random()*colors.length)],size:5+Math.random()*4});
+  (function frame(){
+    ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+    for(const p of pieces){
+      p.y+=p.vy;
+      if(p.y>confettiCanvas.height) p.y=-10;
+      ctx.fillStyle=p.color;
+      ctx.fillRect(p.x,p.y,p.size,p.size*0.6);
     }
+    requestAnimationFrame(frame);
+  })();
+}
 
-    function createHearts(){
-      playArea.innerHTML='';
-      const w = playArea.clientWidth;
-      const hh = playArea.clientHeight;
-      for(let i=0;i<HEART_COUNT;i++){
-        const h = document.createElement('div');
-        h.className='heart';
-        h.innerHTML=`<img src="data:image/svg+xml;utf8,${encodeURIComponent(heartSVG())}">`;
-        h.style.left=Math.random()*(w-80)+20+'px';
-        h.style.top=Math.random()*(hh*0.6)+20+'px';
-        playArea.appendChild(h);
-        animateHeart(h);
-        h.addEventListener('pointerdown',()=>collect(h));
-      }
-    }
-
-    function animateHeart(el){
-      let a=0, amp=8+Math.random()*8;
-      (function loop(){
-        a+=0.03;
-        el.style.transform=`translateY(${Math.sin(a)*amp}px) rotate(${Math.sin(a*2)*10}deg)`;
-        if(!el.dataset.collected) requestAnimationFrame(loop);
-      })();
-    }
-
-    function collect(el){
-      if(el.dataset.collected) return;
-      el.dataset.collected = true;
-      el.style.opacity = '0';
-
-      const rect = el.getBoundingClientRect();
-      const sparkle = document.createElement('div');
-      sparkle.classList.add('sparkle');
-      sparkle.style.left = rect.left + rect.width/2 + 'px';
-      sparkle.style.top = rect.top + rect.height/2 + 'px';
-      document.body.appendChild(sparkle);
-      setTimeout(()=>sparkle.remove(),600);
-
-      dingSound.currentTime = 0;
-      dingSound.play();
-
-      score += POINTS_PER_HEART;
-      scoreEl.textContent = score;
-
-      if(score >= TARGET_SCORE) setTimeout(()=>win(),500);
-    }
-
-    function win(){
-      overlay.classList.add('show');
-      confetti();
-    }
-
-    playAgainBtn.onclick=()=>{
-      score=0;
-      scoreEl.textContent=0;
-      overlay.classList.remove('show');
-      createHearts();
-    };
-
-    function confetti(){
-      const ctx=confettiCanvas.getContext('2d');
-      confettiCanvas.width=sky.clientWidth;
-      confettiCanvas.height=sky.clientHeight;
-      const pieces=[];
-      const colors=['#ff2f60','#ff8fb0','#ffe3f0','#ffb6c1','#e23a6a'];
-      for(let i=0;i<100;i++)
-        pieces.push({x:Math.random()*confettiCanvas.width,y:Math.random()*confettiCanvas.height,vy:2+Math.random()*4,color:colors[Math.floor(Math.random()*colors.length)],size:5+Math.random()*4});
-      (function frame(){
-        ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
-        for(const p of pieces){
-          p.y+=p.vy;
-          if(p.y>confettiCanvas.height) p.y=-10;
-          ctx.fillStyle=p.color;
-          ctx.fillRect(p.x,p.y,p.size,p.size*0.6);
-        }
-        requestAnimationFrame(frame);
-      })();
-    }
-
-    // start screen logic
-    const startScreen = document.getElementById('startScreen');
-    const startBtn = document.getElementById('startBtn');
-
-    startBtn.addEventListener('click', () => {
-      startScreen.classList.add('hide');
-      playArea.style.visibility = "visible";
-      createHearts(); // create hearts after playArea is visible
-    });
-
-  </script>
+// Start screen logic
+const startBtn = document.getElementById('startBtn');
+const startScreen = document.getElementById('startScreen');
+startBtn.addEventListener('click', () => {
+  startScreen.classList.add('hide');
+  playArea.style.visibility = 'visible';
+  createHearts();
+});
+</script>
 </body>
 </html>
