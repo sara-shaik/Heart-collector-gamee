@@ -85,6 +85,9 @@ body {
   background:white; padding:28px 32px; border-radius:16px; text-align:center;
   box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
+.win-card h2{
+  margin:0 0 10px 0; color:#c02a61;
+}
 .win-card button{
   background: linear-gradient(90deg,#ff7aa8,#ff5fa0);
   color:white; border:none; padding:10px 18px; border-radius:10px;
@@ -131,7 +134,7 @@ body {
 
   <div class="overlay" id="overlay">
     <div class="win-card">
-      <h2>🎉 You caught all hearts! 💞</h2>
+      <h2>You won Boo Boo's heart like always, My prince charmingg 💖</h2>
       <button id="playAgainBtn">Play Again</button>
     </div>
   </div>
@@ -184,7 +187,7 @@ function createHearts(){
     const div=document.createElement("div");
     div.className="heart";
     div.style.left=Math.random()*(w-50)+"px";
-    div.style.top=Math.random()*-100+"px"; // start above play area
+    div.style.top=Math.random()*-100+"px";
     div.appendChild(createHeartSVG());
     playArea.appendChild(div);
     const vy=1+Math.random()*2;
@@ -198,17 +201,15 @@ function animateHearts(){
   const h=playArea.clientHeight;
   const bRect=basket.getBoundingClientRect();
   hearts.forEach(obj=>{
+    if(!obj.el.parentNode) return;
     let top=parseFloat(obj.el.style.top);
     top+=obj.vy;
     obj.el.style.top=top+"px";
 
-    // Check collision with basket
     const elRect=obj.el.getBoundingClientRect();
     if(elRect.bottom >= bRect.top && elRect.left + elRect.width/2 >= bRect.left && elRect.left + elRect.width/2 <= bRect.right){
       collect(obj.el);
     }
-
-    // reset if falls below play area
     if(top>h) obj.el.style.top=-50+"px";
   });
   requestAnimationFrame(animateHearts);
@@ -220,7 +221,6 @@ function collect(el){
   score+=POINTS_PER_HEART;
   scoreEl.textContent=score;
 
-  // sparkle
   const rect=el.getBoundingClientRect();
   const sparkle=document.createElement("div");
   sparkle.className="sparkle";
