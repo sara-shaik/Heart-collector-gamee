@@ -29,35 +29,37 @@ body{
   background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.9), rgba(255,255,255,0.3) 20%, transparent 40%),
               radial-gradient(circle at 80% 70%, rgba(255,255,255,0.85), rgba(255,255,255,0.25) 18%, transparent 36%),
               linear-gradient(180deg, rgba(255,245,250,0.9), rgba(255,230,240,0.8));
+  position:relative;
+  z-index:1;
 }
-.cloud { position:absolute; background: rgba(255,255,255,0.9); filter: blur(2px); border-radius:50%; opacity:0.9; mix-blend-mode: screen; animation: drift linear infinite; }
+.cloud { position:absolute; background: rgba(255,255,255,0.9); filter: blur(2px); border-radius:50%; opacity:0.9; mix-blend-mode: screen; animation: drift linear infinite; z-index:2; }
 .cloud.c1{width:220px;height:80px; left:10%; top:10%; animation-duration:40s;}
 .cloud.c2{width:180px;height:70px; right:5%; top:20%; animation-duration:34s; animation-delay:3s;}
 .cloud.c3{width:260px;height:100px; left:30%; top:45%; animation-duration:50s; animation-delay:-6s;}
 .cloud.c4{width:140px;height:55px; right:18%; top:60%; animation-duration:30s; animation-delay:1s;}
 @keyframes drift { 0%{transform:translateX(-6px)}50%{transform:translateX(6px)}100%{transform:translateX(-6px)} }
-.hud{ position:absolute; top:18px; left:20px; right:20px; display:flex; justify-content:space-between; align-items:center; pointer-events:none; }
+.hud{ position:absolute; top:18px; left:20px; right:20px; display:flex; justify-content:space-between; align-items:center; pointer-events:none; z-index:10; }
 .title{ pointer-events:auto; background: linear-gradient(90deg,#ff8fb0,#ff5fa0); color:white; padding:8px 14px; border-radius:14px; font-weight:600; box-shadow:0 6px 18px rgba(230,80,120,0.15); }
 .score{ pointer-events:auto; background:rgba(255,255,255,0.9); padding:8px 12px; border-radius:12px; font-weight:600; color:#c33a63; display:flex; align-items:center; gap:10px; }
-.play-area{ position:absolute; inset:0 0 70px 0; overflow:hidden; touch-action: manipulation; }
-.heart{ position:absolute; width:48px; height:48px; cursor:pointer; user-select:none; transform-origin:center; transition: transform 0.2s ease, opacity 0.3s ease; }
-.bunny-area{ position:absolute; bottom:8px; left:50%; transform:translateX(-50%); width:260px; height:180px; display:flex; align-items:flex-end; justify-content:center; pointer-events:none; }
+.play-area{ position:absolute; inset:0 0 70px 0; overflow:hidden; touch-action: manipulation; z-index:5; }
+.heart{ position:absolute; width:48px; height:48px; cursor:pointer; user-select:none; transform-origin:center; transition: transform 0.2s ease, opacity 0.3s ease; z-index:6; }
+.bunny-area{ position:absolute; bottom:8px; left:50%; transform:translateX(-50%); width:260px; height:180px; display:flex; align-items:flex-end; justify-content:center; pointer-events:none; z-index:10; }
 .bunny{ width:160px; pointer-events:none; transform:translateY(0); }
-.basket{ position:absolute; bottom:28px; width:120px; height:64px; border-radius:8px; background: linear-gradient(180deg,#f5c5d6,#ffb6cc); border:3px solid rgba(200,80,120,0.18); box-shadow: 0 6px 18px rgba(200,80,120,0.12); transform:translateY(10px); pointer-events:none; }
-.overlay{ position:absolute; inset:0; background: rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; z-index:40; opacity:0; pointer-events:none; transition: opacity 0.35s ease; }
+.basket{ position:absolute; bottom:28px; width:120px; height:64px; border-radius:8px; background: linear-gradient(180deg,#f5c5d6,#ffb6cc); border:3px solid rgba(200,80,120,0.18); box-shadow: 0 6px 18px rgba(200,80,120,0.12); transform:translateY(10px); pointer-events:none; z-index:10; }
+.overlay{ position:absolute; inset:0; background: rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; z-index:50; opacity:0; pointer-events:none; transition: opacity 0.35s ease; }
 .overlay.show{ opacity:1; pointer-events:auto; }
 .win-card{ background: linear-gradient(180deg,#fff,#fff4fb); padding:28px 32px; border-radius:16px; text-align:center; box-shadow:0 18px 50px rgba(180,50,100,0.18); transform: translateY(0); }
 .win-card h2{ margin:0 0 6px 0; color:#c02a61; font-size:28px; }
 .win-card p{ margin:0 0 12px 0; color:#b33a6b; font-weight:600; }
 .win-card button{ background: linear-gradient(90deg,#ff7aa8,#ff5fa0); color:white; border:none; padding:10px 18px; border-radius:10px; font-weight:700; cursor:pointer; }
-.start-screen{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(255,240,245,0.85); backdrop-filter:blur(6px); z-index:50; transition:opacity .4s ease; }
+.start-screen{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(255,240,245,0.85); backdrop-filter:blur(6px); z-index:100; transition:opacity .4s ease; }
 .start-screen.hide{opacity:0;pointer-events:none;}
 .start-card{ background:white; padding:28px 36px; border-radius:18px; text-align:center; box-shadow:0 12px 40px rgba(200,80,120,0.2); }
 .start-card h2{color:#ff2f60;margin:0 0 10px;font-size:26px;}
 .start-card p{color:#c33a63;margin:0 0 18px;}
 .start-card button{ background:linear-gradient(90deg,#ff7aa8,#ff5fa0); color:white; border:none; padding:10px 22px; border-radius:12px; font-weight:700; cursor:pointer; font-size:16px; }
 @media (max-width:520px){ .sky{ height: 72vh; max-width: 420px; } .bunny{ width:120px; } .heart{ width:42px; height:42px; } }
-.sparkle { position: absolute; width: 10px; height: 10px; background: radial-gradient(circle, #fff8e7 0%, #ffd6e8 60%, transparent 100%); border-radius: 50%; pointer-events: none; animation: sparkleAnim 0.6s ease-out forwards; z-index: 30; }
+.sparkle { position: absolute; width: 10px; height: 10px; background: radial-gradient(circle, #fff8e7 0%, #ffd6e8 60%, transparent 100%); border-radius: 50%; pointer-events: none; animation: sparkleAnim 0.6s ease-out forwards; z-index:30; }
 @keyframes sparkleAnim { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
 </style>
 </head>
@@ -96,23 +98,22 @@ body{
 </div>
 
 <script>
-const HEART_COUNT = 10;
-const POINTS_PER_HEART = 5;
-const TARGET_SCORE = HEART_COUNT * POINTS_PER_HEART;
-const playArea = document.getElementById('playArea');
-const scoreEl = document.getElementById('score');
-const overlay = document.getElementById('overlay');
-const playAgainBtn = document.getElementById('playAgainBtn');
-const confettiCanvas = document.getElementById('confettiCanvas');
-const sky = document.getElementById('sky');
-const dingSound = new Audio('ding.mp3');
+const HEART_COUNT=10;
+const POINTS_PER_HEART=5;
+const TARGET_SCORE=HEART_COUNT*POINTS_PER_HEART;
+const playArea=document.getElementById('playArea');
+const scoreEl=document.getElementById('score');
+const overlay=document.getElementById('overlay');
+const playAgainBtn=document.getElementById('playAgainBtn');
+const confettiCanvas=document.getElementById('confettiCanvas');
+const sky=document.getElementById('sky');
+const dingSound=new Audio('ding.mp3');
 
-let score = 0;
-let hearts = [];
+let score=0;
+let hearts=[];
 
-// Unique SVG hearts
 function heartSVG(){
-  const id = 'g'+Math.floor(Math.random()*1000000);
+  const id='g'+Math.floor(Math.random()*1000000);
   return `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
     <defs>
       <radialGradient id='${id}' cx='30%' cy='30%' r='70%'>
@@ -127,18 +128,17 @@ function heartSVG(){
 
 function createHearts(){
   playArea.innerHTML='';
-  hearts = [];
-  const w = playArea.clientWidth;
-  const h = playArea.clientHeight;
+  hearts=[];
+  const w=playArea.clientWidth;
+  const h=playArea.clientHeight;
 
   for(let i=0;i<HEART_COUNT;i++){
-    const heart = document.createElement('div');
+    const heart=document.createElement('div');
     heart.className='heart';
     heart.dataset.collected=false;
-    heart.innerHTML=heartSVG(); // Insert SVG directly
-
+    heart.innerHTML=heartSVG();
     heart.style.left=Math.random()*(w-50)+'px';
-    heart.style.top=Math.random()*-h+'px';
+    heart.style.top=Math.random()*(h-50)+'px'; // START INSIDE VISIBLE AREA
 
     playArea.appendChild(heart);
     hearts.push({el:heart,vy:1+Math.random()*2});
@@ -148,7 +148,7 @@ function createHearts(){
 }
 
 function animateHearts(){
-  const h = playArea.clientHeight;
+  const h=playArea.clientHeight;
   hearts.forEach(hObj=>{
     if(hObj.el.dataset.collected) return;
     let top=parseFloat(hObj.el.style.top);
